@@ -7,7 +7,7 @@ LabelStyle::LabelStyle(
     VAlignment valign,
     Color bgColor,
     Color borderColor)
-    : Style(bgColor, borderColor)
+    : ViewStyle(bgColor, borderColor)
 {
     _halign = halign;
     _valign = valign;

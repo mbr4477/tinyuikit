@@ -1,8 +1,8 @@
 #ifndef _UI_VIEW_H_
 #define _UI_VIEW_H_
-#include "Box.h"
-#include "Style.h"
 #include <vector>
+#include "Box.h"
+#include "ViewStyle.h"
 #include "Canvas.h"
 
 namespace ui
@@ -17,13 +17,13 @@ namespace ui
             HOVER
         };
 
-        View(const Box bounds, Style *style);
+        View(const Box bounds, ViewStyle *style);
 
         Box getBounds() const;
         void setBounds(Box bounds);
 
-        virtual Style *getStyle();
-        virtual void setStyle(Style *style, State state = NORMAL);
+        virtual ViewStyle *getStyle();
+        virtual void setStyle(ViewStyle *style, State state = NORMAL);
 
         void setState(State state);
         State getState() const;
@@ -38,7 +38,7 @@ namespace ui
 
     private:
         Box _bounds;
-        Style *_styles[3];
+        ViewStyle *_styles[3];
         State _state;
         bool _dirty;
         std::vector<View *> _children;

@@ -1,8 +1,8 @@
 #ifndef _UI_CANVAS_H_
 #define _UI_CANVAS_H_
-#include "Box.h"
-#include "Style.h"
 #include <string>
+#include "Box.h"
+#include "Color.h"
 
 namespace ui
 {

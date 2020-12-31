@@ -17,7 +17,7 @@ namespace ui
         MIDDLE,
         BOTTOM
     };
-    class LabelStyle : public Style
+    class LabelStyle : public ViewStyle
     {
     public:
         LabelStyle(

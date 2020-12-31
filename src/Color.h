@@ -1,5 +1,5 @@
-#ifndef _UI_STYLE_H_
-#define _UI_STYLE_H_
+#ifndef _COLOR_H_
+#define _COLOR_H_
 #include <stdint.h>
 
 namespace ui
@@ -23,23 +23,15 @@ namespace ui
     };
 
     const Color WHITE(255, 255, 255);
+    const Color GRAY(128, 128, 128);
     const Color BLACK(0, 0, 0);
-
-    class Style
-    {
-    public:
-        Style(const Color bgColor, const Color borderColor);
-
-        void setBgColor(const Color bgColor);
-        Color getBgColor() const;
-
-        void setBorderColor(const Color borderColor);
-        Color getBorderColor() const;
-
-    private:
-        Color _bgColor;
-        Color _borderColor;
-    };
+    const Color RED(255, 0, 0);
+    const Color GREEN(0, 255, 0);
+    const Color BLUE(0, 0, 255);
+    const Color YELLOW(255, 255, 0);
+    const Color CYAN(0, 255, 255);
+    const Color MAGENTA(255, 0, 255);
+    const Color TRANSPARENT;
 } // namespace ui
 
 #endif

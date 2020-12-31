@@ -3,7 +3,7 @@
 
 using namespace ui;
 
-View::View(const Box bounds, Style *style)
+View::View(const Box bounds, ViewStyle *style)
     : _bounds(bounds), _state(State::NORMAL)
 {
     setStyle(style, State::NORMAL);
@@ -20,12 +20,12 @@ void View::setBounds(Box bounds)
     _bounds = bounds;
 }
 
-Style *View::getStyle()
+ViewStyle *View::getStyle()
 {
     return _styles[_state];
 }
 
-void View::setStyle(Style *style, State state)
+void View::setStyle(ViewStyle *style, State state)
 {
     _styles[state] = style;
     markDirty();
@@ -74,7 +74,7 @@ void View::clearDirty()
 
 void View::drawBackground(Canvas &canvas)
 {
-    Style *style = getStyle();
+    ViewStyle *style = getStyle();
     if (!style->getBgColor().isTransparent())
     {
         canvas.fillRect(_bounds, style->getBgColor());

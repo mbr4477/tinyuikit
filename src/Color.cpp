@@ -1,4 +1,4 @@
-#include "Style.h"
+#include "Color.h"
 using namespace ui;
 
 Color::Color(uint8_t red, uint8_t green, uint8_t blue)
@@ -34,29 +34,4 @@ uint32_t Color::getRGB() const
 bool Color::isTransparent() const
 {
     return _transparent;
-}
-
-Style::Style(const Color bgColor, const Color borderColor)
-    : _bgColor(bgColor), _borderColor(borderColor)
-{
-}
-
-void Style::setBgColor(const Color bgColor)
-{
-    _bgColor = bgColor;
-}
-
-Color Style::getBgColor() const
-{
-    return _bgColor;
-}
-
-void Style::setBorderColor(const Color borderColor)
-{
-    _borderColor = borderColor;
-}
-
-Color Style::getBorderColor() const
-{
-    return _borderColor;
 }
