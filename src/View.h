@@ -2,44 +2,37 @@
 #define _UI_VIEW_H_
 #include <vector>
 #include "Box.h"
-#include "ViewStyle.h"
 #include "Canvas.h"
+#include "Color.h"
 
 namespace ui
 {
     class View
     {
     public:
-        enum State
-        {
-            NORMAL = 0,
-            ACTIVE,
-            HOVER
-        };
-
-        View(const Box bounds, ViewStyle *style);
+        View(const Box bounds);
 
         Box getBounds() const;
         void setBounds(Box bounds);
 
-        virtual ViewStyle *getStyle();
-        virtual void setStyle(ViewStyle *style, State state = NORMAL);
-
-        void setState(State state);
-        State getState() const;
-
         std::vector<View *> getChildren() const;
         void addChild(View &child);
 
+        void setBgColor(Color color);
+        Color getBgColor() const;
+
+        void setBorderColor(Color color);
+        Color getBorderColor() const;
+
         virtual void draw(Canvas &canvas);
 
-        bool isDirty();
+        bool isDirty() const;
         void markDirty();
 
     private:
         Box _bounds;
-        ViewStyle *_styles[3];
-        State _state;
+        Color _bgColor;
+        Color _borderColor;
         bool _dirty;
         std::vector<View *> _children;
 

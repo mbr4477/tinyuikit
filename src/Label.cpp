@@ -1,54 +1,14 @@
 #include "Label.h"
 using namespace ui;
 
-LabelStyle::LabelStyle(
-    Color textColor,
-    Alignment halign,
-    VAlignment valign,
-    Color bgColor,
-    Color borderColor)
-    : ViewStyle(bgColor, borderColor)
-{
-    _halign = halign;
-    _valign = valign;
-    _textColor = textColor;
-}
-
-void LabelStyle::setAlignment(Alignment align)
-{
-    _halign = align;
-}
-
-Alignment LabelStyle::getAlignment()
-{
-    return _halign;
-}
-
-void LabelStyle::setVAlignment(VAlignment align)
-{
-    _valign = align;
-}
-
-VAlignment LabelStyle::getVAlignment()
-{
-    return _valign;
-}
-
-void LabelStyle::setTextColor(Color color)
-{
-    _textColor = color;
-}
-
-Color LabelStyle::getTextColor()
-{
-    return _textColor;
-}
-
 Label::Label(
     std::string text,
-    Box bounds,
-    LabelStyle *style)
-    : View(bounds, style), _text(text)
+    Box bounds)
+    : View{bounds},
+      _text{text},
+      _textColor{255, 255, 255},
+      _halign{LEFT},
+      _valign{TOP}
 {
 }
 
@@ -58,20 +18,42 @@ void Label::setText(std::string text)
     markDirty();
 }
 
-std::string Label::getText()
+std::string Label::getText() const
 {
     return _text;
 }
 
-LabelStyle *Label::getStyle()
+void Label::setAlignment(Alignment align)
 {
-    return static_cast<LabelStyle *>(View::getStyle());
+    _halign = align;
+    markDirty();
 }
 
-void Label::setStyle(LabelStyle *style, State state)
+Alignment Label::getAlignment() const
 {
-    setStyle(style, state);
+    return _halign;
+}
+
+void Label::setVAlignment(VAlignment align)
+{
+    _valign = align;
     markDirty();
+}
+
+VAlignment Label::getVAlignment() const
+{
+    return _valign;
+}
+
+void Label::setTextColor(Color color)
+{
+    _textColor = color;
+    markDirty();
+}
+
+Color Label::getTextColor() const
+{
+    return _textColor;
 }
 
 void Label::drawSelf(Canvas &canvas)
@@ -80,7 +62,7 @@ void Label::drawSelf(Canvas &canvas)
     Box textBounds = canvas.getTextBounds(_text);
     unsigned int yOffset = 0;
     unsigned int xOffset = 0;
-    switch (getStyle()->getAlignment())
+    switch (getAlignment())
     {
     case LEFT:
         break;
@@ -91,7 +73,7 @@ void Label::drawSelf(Canvas &canvas)
         xOffset = getBounds().getWidth() - textBounds.getWidth();
         break;
     }
-    switch (getStyle()->getVAlignment())
+    switch (getVAlignment())
     {
     case TOP:
         break;
@@ -106,7 +88,7 @@ void Label::drawSelf(Canvas &canvas)
         _text,
         getBounds().getX() + xOffset,
         getBounds().getY() + yOffset,
-        getStyle()->getTextColor());
+        getTextColor());
 }
 
 void Label::draw(Canvas &canvas)

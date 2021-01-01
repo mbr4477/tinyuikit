@@ -3,9 +3,9 @@
 
 #include "Box.h"
 #include "Color.h"
-#include "ViewStyle.h"
 #include "View.h"
 #include "Label.h"
+#include "Button.h"
 
 #include "Canvas.h"
 

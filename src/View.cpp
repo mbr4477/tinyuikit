@@ -1,13 +1,16 @@
 #include "View.h"
 #include <vector>
+#include "Color.h"
 
 using namespace ui;
 
-View::View(const Box bounds, ViewStyle *style)
-    : _bounds(bounds), _state(State::NORMAL)
+View::View(const Box bounds)
+    : _bounds{bounds},
+      _children{},
+      _dirty{true},
+      _bgColor{0, 0, 0},
+      _borderColor{}
 {
-    setStyle(style, State::NORMAL);
-    markDirty();
 }
 
 Box View::getBounds() const
@@ -18,31 +21,32 @@ Box View::getBounds() const
 void View::setBounds(Box bounds)
 {
     _bounds = bounds;
-}
-
-ViewStyle *View::getStyle()
-{
-    return _styles[_state];
-}
-
-void View::setStyle(ViewStyle *style, State state)
-{
-    _styles[state] = style;
     markDirty();
 }
 
-View::State View::getState() const
+void View::setBgColor(Color color)
 {
-    return _state;
-}
-
-void View::setState(State state)
-{
-    _state = state;
+    _bgColor = color;
     markDirty();
 }
 
-bool View::isDirty()
+Color View::getBgColor() const
+{
+    return _bgColor;
+}
+
+void View::setBorderColor(Color color)
+{
+    _borderColor = color;
+    markDirty();
+}
+
+Color View::getBorderColor() const
+{
+    return _borderColor;
+}
+
+bool View::isDirty() const
 {
     return _dirty;
 }
@@ -74,15 +78,14 @@ void View::clearDirty()
 
 void View::drawBackground(Canvas &canvas)
 {
-    ViewStyle *style = getStyle();
-    if (!style->getBgColor().isTransparent())
+    if (!getBgColor().isTransparent())
     {
-        canvas.fillRect(_bounds, style->getBgColor());
+        canvas.fillRect(_bounds, getBgColor());
     }
 
-    if (!style->getBorderColor().isTransparent())
+    if (!getBorderColor().isTransparent())
     {
-        canvas.strokeRect(_bounds, style->getBorderColor());
+        canvas.strokeRect(_bounds, getBorderColor());
     }
 }
 

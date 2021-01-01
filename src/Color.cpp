@@ -2,12 +2,20 @@
 using namespace ui;
 
 Color::Color(uint8_t red, uint8_t green, uint8_t blue)
-    : _red(red), _green(green), _blue(blue), _transparent(false)
+    : _red{red}, _green{green}, _blue{blue}, _transparent{false}
 {
 }
 
 Color::Color()
-    : _red(0), _green(0), _blue(0), _transparent(true)
+    : _red{0}, _green{0}, _blue{0}, _transparent{false}
+{
+}
+
+Color::Color(const Color &other)
+    : _red{other._red},
+      _blue{other._blue},
+      _green{other._green},
+      _transparent{other._transparent}
 {
 }
 

@@ -17,44 +17,24 @@ namespace ui
         MIDDLE,
         BOTTOM
     };
-    class LabelStyle : public ViewStyle
-    {
-    public:
-        LabelStyle(
-            Color textColor,
-            Alignment halign = Alignment::LEFT,
-            VAlignment valign = VAlignment::TOP,
-            Color bgColor = Color(),
-            Color borderColor = Color());
-
-        void setTextColor(Color color);
-        Color getTextColor();
-
-        void setAlignment(Alignment align);
-        Alignment getAlignment();
-
-        void setVAlignment(VAlignment align);
-        VAlignment getVAlignment();
-
-    private:
-        Color _textColor;
-        Alignment _halign;
-        VAlignment _valign;
-    };
-
     class Label : public View
     {
     public:
         Label(
             std::string text,
-            Box bounds,
-            LabelStyle *style);
+            Box bounds);
 
         void setText(std::string text);
-        std::string getText();
+        std::string getText() const;
 
-        virtual void setStyle(LabelStyle *style, State state = NORMAL);
-        virtual LabelStyle *getStyle();
+        void setTextColor(Color color);
+        Color getTextColor() const;
+
+        void setAlignment(Alignment align);
+        Alignment getAlignment() const;
+
+        void setVAlignment(VAlignment align);
+        VAlignment getVAlignment() const;
 
         virtual void draw(Canvas &canvas);
 
@@ -63,6 +43,9 @@ namespace ui
 
     private:
         std::string _text;
+        Color _textColor;
+        Alignment _halign;
+        VAlignment _valign;
     };
 } // namespace ui
 
