@@ -9,7 +9,8 @@ View::View(const Box bounds)
       _children{},
       _dirty{true},
       _bgColor{0, 0, 0},
-      _borderColor{}
+      _borderColor{},
+      _state{NORMAL}
 {
 }
 
@@ -44,6 +45,24 @@ void View::setBorderColor(Color color)
 Color View::getBorderColor() const
 {
     return _borderColor;
+}
+
+void View::setState(ViewState state)
+{
+    _state = state;
+    _stateListener(_state);
+    markDirty();
+}
+
+ViewState View::getState() const
+{
+    return _state;
+}
+
+void View::setStateListener(std::function<void(ViewState)> listener)
+{
+    _stateListener = listener;
+    _stateListener(_state);
 }
 
 bool View::isDirty() const
