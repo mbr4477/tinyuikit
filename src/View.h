@@ -12,17 +12,18 @@ namespace ui
     {
         NORMAL,
         FOCUSED,
-        PRESSED
+        ACTIVE
     };
     class View
     {
     public:
-        View(const Box bounds);
+        View(const Box bounds, bool focusable = false);
 
         Box getBounds() const;
         void setBounds(Box bounds);
 
         std::vector<View *> getChildren() const;
+
         void addChild(View &child);
 
         void setBgColor(Color color);
@@ -34,12 +35,29 @@ namespace ui
         void setState(ViewState state);
         ViewState getState() const;
 
+        /** @brief Set the state listener.
+         * The state listener is called when the view changes
+         * state and can be used to modify the view style
+         * based on the state.
+         */
         void setStateListener(std::function<void(ViewState)> listener);
 
+        /** Draw to the given canvas. */
         virtual void draw(Canvas &canvas);
 
         bool isDirty() const;
         void markDirty();
+
+        bool isFocusable() const;
+        bool hasFocus() const;
+
+        /** @brief Set the focus. Note that this does NOT
+         * guarantee that this is the only item focused.
+         */
+        void setFocus(bool focus);
+
+        void setFocusIndex(unsigned int focusIndex);
+        unsigned int getFocusIndex() const;
 
     private:
         Box _bounds;
@@ -47,6 +65,9 @@ namespace ui
         Color _bgColor;
         Color _borderColor;
         bool _dirty;
+        bool _focused;
+        unsigned int _focusIndex;
+        bool _focusable;
         std::function<void(ViewState)> _stateListener;
         std::vector<View *> _children;
 

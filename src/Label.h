@@ -22,7 +22,8 @@ namespace ui
     public:
         Label(
             std::string text,
-            Box bounds);
+            Box bounds,
+            bool focusable = false);
 
         void setText(std::string text);
         std::string getText() const;

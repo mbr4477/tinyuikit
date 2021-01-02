@@ -6,6 +6,8 @@
 #include "View.h"
 #include "Label.h"
 #include "Button.h"
+#include "FocusManager.h"
+#include "ClickRouter.h"
 
 #include "Canvas.h"
 

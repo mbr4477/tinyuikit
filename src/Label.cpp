@@ -3,8 +3,9 @@ using namespace ui;
 
 Label::Label(
     std::string text,
-    Box bounds)
-    : View{bounds},
+    Box bounds,
+    bool focusable)
+    : View{bounds, focusable},
       _text{text},
       _textColor{255, 255, 255},
       _halign{LEFT},

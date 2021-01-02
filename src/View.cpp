@@ -4,13 +4,17 @@
 
 using namespace ui;
 
-View::View(const Box bounds)
+View::View(const Box bounds, bool focusable)
     : _bounds{bounds},
       _children{},
       _dirty{true},
       _bgColor{0, 0, 0},
       _borderColor{},
-      _state{NORMAL}
+      _state{NORMAL},
+      _focused{false},
+      _focusIndex{0},
+      _focusable{focusable},
+      _stateListener{[](ViewState state) {}}
 {
 }
 
@@ -79,6 +83,11 @@ void View::markDirty()
     }
 }
 
+void View::clearDirty()
+{
+    _dirty = false;
+}
+
 std::vector<View *> View::getChildren() const
 {
     return _children;
@@ -88,11 +97,6 @@ void View::addChild(View &child)
 {
     _children.push_back(&child);
     markDirty();
-}
-
-void View::clearDirty()
-{
-    _dirty = false;
 }
 
 void View::drawBackground(Canvas &canvas)
@@ -131,4 +135,37 @@ void View::draw(Canvas &canvas)
         clearDirty();
     }
     drawChildren(canvas);
+}
+
+void View::setFocus(bool focus)
+{
+    _focused = focus;
+    if (_focused)
+    {
+        setState(ui::FOCUSED);
+    }
+    else
+    {
+        setState(ui::NORMAL);
+    }
+}
+
+bool View::hasFocus() const
+{
+    return _focused;
+}
+
+void View::setFocusIndex(unsigned int focusIndex)
+{
+    _focusIndex = focusIndex;
+}
+
+unsigned int View::getFocusIndex() const
+{
+    return _focusIndex;
+}
+
+bool View::isFocusable() const
+{
+    return _focusable;
 }
