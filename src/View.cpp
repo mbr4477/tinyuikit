@@ -112,11 +112,6 @@ void View::drawBackground(Canvas &canvas)
     }
 }
 
-void View::drawSelf(Canvas &canvas)
-{
-    drawBackground(canvas);
-}
-
 void View::drawChildren(Canvas &canvas)
 {
     Box canvasInset = canvas.getInset();
@@ -131,7 +126,7 @@ void View::draw(Canvas &canvas)
 {
     if (_dirty)
     {
-        drawSelf(canvas);
+        drawBackground(canvas);
         clearDirty();
     }
     drawChildren(canvas);

@@ -70,11 +70,11 @@ namespace ui
         bool _focusable;
         std::function<void(ViewState)> _stateListener;
         std::vector<View *> _children;
+        void drawSelf(Canvas &canvas);
 
     protected:
         void drawChildren(Canvas &canvas);
         void drawBackground(Canvas &canvas);
-        virtual void drawSelf(Canvas &canvas);
         void clearDirty();
     };
 } // namespace ui

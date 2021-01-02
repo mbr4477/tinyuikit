@@ -40,7 +40,12 @@ namespace ui
         virtual void draw(Canvas &canvas);
 
     protected:
-        virtual void drawSelf(Canvas &canvas);
+        void drawTextInBounds(Canvas &canvas,
+                              std::string text,
+                              Box bounds,
+                              Alignment halign,
+                              VAlignment valign,
+                              Color color);
 
     private:
         std::string _text;

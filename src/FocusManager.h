@@ -10,6 +10,9 @@ namespace ui
     public:
         FocusManager();
 
+        /** @brief Add a view to the focus manager. 
+         * If this is the first view added, it takes focus.
+         */
         void add(View &focusable);
 
         /** Returns false if already at last focusable element */

@@ -57,46 +57,59 @@ Color Label::getTextColor() const
     return _textColor;
 }
 
-void Label::drawSelf(Canvas &canvas)
+void Label::drawTextInBounds(
+    Canvas &canvas,
+    std::string text,
+    Box bounds,
+    Alignment halign,
+    VAlignment valign,
+    Color color)
 {
-    drawBackground(canvas);
-    Box textBounds = canvas.getTextBounds(_text);
+    Box textBounds = canvas.getTextBounds(text);
     unsigned int yOffset = 0;
     unsigned int xOffset = 0;
-    switch (getAlignment())
+    switch (halign)
     {
     case LEFT:
         break;
     case CENTER:
-        xOffset = (getBounds().getWidth() - textBounds.getWidth()) / 2;
+        xOffset = (bounds.getWidth() - textBounds.getWidth()) / 2;
         break;
     case RIGHT:
-        xOffset = getBounds().getWidth() - textBounds.getWidth();
+        xOffset = bounds.getWidth() - textBounds.getWidth();
         break;
     }
-    switch (getVAlignment())
+    switch (valign)
     {
     case TOP:
         break;
     case MIDDLE:
-        yOffset = (getBounds().getHeight() - textBounds.getHeight()) / 2;
+        yOffset = (bounds.getHeight() - textBounds.getHeight()) / 2;
         break;
     case BOTTOM:
-        yOffset = getBounds().getHeight() - textBounds.getHeight();
+        yOffset = bounds.getHeight() - textBounds.getHeight();
         break;
     }
     canvas.addText(
-        _text,
-        getBounds().getX() + xOffset,
-        getBounds().getY() + yOffset,
-        getTextColor());
+        text,
+        bounds.getX() + xOffset,
+        bounds.getY() + yOffset,
+        color);
 }
 
 void Label::draw(Canvas &canvas)
 {
     if (isDirty())
     {
-        drawSelf(canvas);
+        drawBackground(canvas);
+        drawTextInBounds(
+            canvas,
+            _text,
+            getBounds(),
+            getAlignment(),
+            getVAlignment(),
+            getTextColor());
+
         clearDirty();
     }
     // no children to draw

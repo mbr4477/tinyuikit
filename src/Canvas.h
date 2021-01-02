@@ -17,6 +17,12 @@ namespace ui
         virtual void strokeRect(Box rect, Color border) = 0;
         virtual void addText(std::string text, unsigned int x, unsigned int y, Color color) = 0;
         virtual Box getTextBounds(std::string text);
+        virtual void strokeLine(
+            unsigned int x1,
+            unsigned int y1,
+            unsigned int x2,
+            unsigned int y2,
+            Color color) = 0;
         void setInset(Box inset)
         {
             _inset = inset;
