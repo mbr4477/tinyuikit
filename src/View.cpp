@@ -99,30 +99,30 @@ void View::addChild(View &child)
     markDirty();
 }
 
-void View::drawBackground(Canvas &canvas)
+void View::drawBackground(Canvas *canvas)
 {
     if (!getBgColor().isTransparent())
     {
-        canvas.fillRect(_bounds, getBgColor());
+        canvas->fillRect(_bounds, getBgColor());
     }
 
     if (!getBorderColor().isTransparent())
     {
-        canvas.strokeRect(_bounds, getBorderColor());
+        canvas->strokeRect(_bounds, getBorderColor());
     }
 }
 
-void View::drawChildren(Canvas &canvas)
+void View::drawChildren(Canvas *canvas)
 {
-    Box canvasInset = canvas.getInset();
+    Box canvasInset = canvas->getInset();
     for (auto v : _children)
     {
-        canvas.setInset(_bounds.offsetBy(canvasInset));
+        canvas->setInset(_bounds.offsetBy(canvasInset));
         v->draw(canvas);
     }
 }
 
-void View::draw(Canvas &canvas)
+void View::draw(Canvas *canvas)
 {
     if (_dirty)
     {

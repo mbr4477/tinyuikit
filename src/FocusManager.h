@@ -15,6 +15,8 @@ namespace ui
          */
         void add(View &focusable);
 
+        void clear();
+
         /** Returns false if already at last focusable element */
         bool next();
 

@@ -32,13 +32,13 @@ void TextField::setPlaceholder(std::string placeholder)
     markDirty();
 }
 
-void TextField::draw(Canvas &canvas)
+void TextField::draw(Canvas *canvas)
 {
     Box bounds = getBounds();
     if (isDirty())
     {
-        canvas.fillRect(bounds, getBgColor());
-        canvas.strokeLine(
+        canvas->fillRect(bounds, getBgColor());
+        canvas->strokeLine(
             bounds.getX(),
             bounds.getY() + bounds.getHeight(),
             bounds.getX() + bounds.getWidth(),

@@ -58,14 +58,14 @@ Color Label::getTextColor() const
 }
 
 void Label::drawTextInBounds(
-    Canvas &canvas,
+    Canvas *canvas,
     std::string text,
     Box bounds,
     Alignment halign,
     VAlignment valign,
     Color color)
 {
-    Box textBounds = canvas.getTextBounds(text);
+    Box textBounds = canvas->getTextBounds(text);
     unsigned int yOffset = 0;
     unsigned int xOffset = 0;
     switch (halign)
@@ -90,14 +90,14 @@ void Label::drawTextInBounds(
         yOffset = bounds.getHeight() - textBounds.getHeight();
         break;
     }
-    canvas.addText(
+    canvas->addText(
         text,
         bounds.getX() + xOffset,
         bounds.getY() + yOffset,
         color);
 }
 
-void Label::draw(Canvas &canvas)
+void Label::draw(Canvas *canvas)
 {
     if (isDirty())
     {

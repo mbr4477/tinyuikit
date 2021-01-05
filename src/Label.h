@@ -37,10 +37,10 @@ namespace ui
         void setVAlignment(VAlignment align);
         VAlignment getVAlignment() const;
 
-        virtual void draw(Canvas &canvas);
+        virtual void draw(Canvas *canvas);
 
     protected:
-        void drawTextInBounds(Canvas &canvas,
+        void drawTextInBounds(Canvas *canvas,
                               std::string text,
                               Box bounds,
                               Alignment halign,

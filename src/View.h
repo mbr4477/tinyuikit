@@ -43,7 +43,7 @@ namespace ui
         void setStateListener(std::function<void(ViewState)> listener);
 
         /** Draw to the given canvas. */
-        virtual void draw(Canvas &canvas);
+        virtual void draw(Canvas *canvas);
 
         bool isDirty() const;
         void markDirty();
@@ -70,11 +70,11 @@ namespace ui
         bool _focusable;
         std::function<void(ViewState)> _stateListener;
         std::vector<View *> _children;
-        void drawSelf(Canvas &canvas);
+        void drawSelf(Canvas *canvas);
 
     protected:
-        void drawChildren(Canvas &canvas);
-        void drawBackground(Canvas &canvas);
+        void drawChildren(Canvas *canvas);
+        void drawBackground(Canvas *canvas);
         void clearDirty();
     };
 } // namespace ui

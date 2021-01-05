@@ -12,6 +12,7 @@ namespace ui
     public:
         ClickRouter();
         void add(Button &button);
+        void clear();
         void press();
         void release();
         bool isPressed();

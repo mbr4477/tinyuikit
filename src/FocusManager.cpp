@@ -92,6 +92,11 @@ void FocusManager::add(View &focusable)
     }
 }
 
+void FocusManager::clear()
+{
+    _focusables.clear();
+}
+
 View *FocusManager::findFocusedByIndex(unsigned int focusIndex)
 {
     for (auto f : _focusables)

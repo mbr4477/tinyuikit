@@ -13,6 +13,11 @@ void ClickRouter::add(Button &button)
     _buttons.push_back(&button);
 }
 
+void ClickRouter::clear()
+{
+    _buttons.clear();
+}
+
 bool ClickRouter::isPressed()
 {
     return _pressed;
@@ -20,26 +25,32 @@ bool ClickRouter::isPressed()
 
 void ClickRouter::press()
 {
-    for (auto b : _buttons)
+    if (!_pressed)
     {
-        if (b->hasFocus())
+        for (auto b : _buttons)
         {
-            b->press();
-            _pressed = true;
-            return;
+            if (b->hasFocus())
+            {
+                b->press();
+                _pressed = true;
+                return;
+            }
         }
     }
 }
 
 void ClickRouter::release()
 {
-    for (auto b : _buttons)
+    if (_pressed)
     {
-        if (b->hasFocus())
+        for (auto b : _buttons)
         {
-            b->release();
-            _pressed = false;
-            return;
+            if (b->hasFocus())
+            {
+                b->release();
+                _pressed = false;
+                return;
+            }
         }
     }
 }

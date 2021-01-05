@@ -12,7 +12,7 @@ namespace ui
 
         void setPlaceholder(std::string placeholder);
 
-        virtual void draw(Canvas &canvas);
+        virtual void draw(Canvas *canvas);
 
         void write(char c);
 

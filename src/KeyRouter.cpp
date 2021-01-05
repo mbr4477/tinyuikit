@@ -1,18 +1,23 @@
-#include "TextRouter.h"
+#include "KeyRouter.h"
 
 using namespace ui;
 
-TextRouter::TextRouter()
+KeyRouter::KeyRouter()
     : _textFields{}
 {
 }
 
-void TextRouter::add(TextField &textField)
+void KeyRouter::add(TextField &textField)
 {
     _textFields.push_back(&textField);
 }
 
-void TextRouter::write(char c)
+void KeyRouter::clear()
+{
+    _textFields.clear();
+}
+
+void KeyRouter::write(char c)
 {
     for (auto tf : _textFields)
     {

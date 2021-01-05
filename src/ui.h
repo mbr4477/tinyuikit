@@ -8,7 +8,8 @@
 #include "Button.h"
 #include "FocusManager.h"
 #include "ClickRouter.h"
-#include "TextRouter.h"
+#include "KeyRouter.h"
+#include "Activity.h"
 
 #include "Canvas.h"
 
