@@ -1,11 +1,12 @@
 #include "Window.h"
+#include "InputDevice.h"
 
 using namespace ui;
 
-Window *Window::main()
+Window &Window::main()
 {
     static Window window;
-    return &window;
+    return window;
 }
 
 Window::Window()
@@ -14,29 +15,41 @@ Window::Window()
 {
 }
 
-void Window::setCanvas(Canvas *canvas)
+void Window::setCanvas(Canvas &canvas)
 {
-    _canvas = canvas;
+    _canvas = &canvas;
 }
 
-void Window::setActivity(Activity *activity)
+void Window::requestFocus()
 {
-    if (activity != NULL)
+    if (_activity)
     {
-        _activity = activity;
-        FocusManager::shared()->setRoot(_activity->getRoot());
+        FocusManager::shared().setRoot(_activity->getRoot());
     }
 }
 
-Activity *Window::getActivity()
+void Window::setActivity(Activity &activity)
 {
-    return _activity;
+
+    _activity = &activity;
+    requestFocus();
+}
+
+Activity &Window::getActivity()
+{
+    return *_activity;
 }
 
 void Window::draw()
 {
-    if (_activity != NULL && _canvas != NULL)
+    if (_activity && _canvas)
     {
-        _activity->getRoot()->draw(_canvas);
+        _activity->getRoot().draw(*_canvas);
     }
+}
+
+void Window::update()
+{
+    InputDevice::shared().poll();
+    draw();
 }

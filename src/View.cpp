@@ -80,7 +80,7 @@ void View::markDirty()
     _dirty = true;
     for (auto v : _children)
     {
-        v->markDirty();
+        v.get().markDirty();
     }
 }
 
@@ -89,41 +89,41 @@ void View::clearDirty()
     _dirty = false;
 }
 
-std::vector<View *> View::getChildren() const
+std::vector<std::reference_wrapper<View>> View::getChildren() const
 {
     return _children;
 }
 
 void View::addChild(View &child)
 {
-    _children.push_back(&child);
+    _children.push_back(child);
     markDirty();
 }
 
-void View::drawBackground(Canvas *canvas)
+void View::drawBackground(Canvas &canvas)
 {
     if (!getBgColor().isTransparent())
     {
-        canvas->fillRect(_bounds, getBgColor());
+        canvas.fillRect(_bounds, getBgColor());
     }
 
     if (!getBorderColor().isTransparent())
     {
-        canvas->strokeRect(_bounds, getBorderColor());
+        canvas.strokeRect(_bounds, getBorderColor());
     }
 }
 
-void View::drawChildren(Canvas *canvas)
+void View::drawChildren(Canvas &canvas)
 {
-    Box canvasInset = canvas->getInset();
+    Box canvasInset = canvas.getInset();
     for (auto v : _children)
     {
-        canvas->setInset(_bounds.offsetBy(canvasInset));
-        v->draw(canvas);
+        canvas.setInset(_bounds.offsetBy(canvasInset));
+        v.get().draw(canvas);
     }
 }
 
-void View::draw(Canvas *canvas)
+void View::draw(Canvas &canvas)
 {
     if (_dirty)
     {
@@ -168,14 +168,14 @@ bool View::isFocusable() const
 
 void View::requestFocus()
 {
-    FocusManager::shared()->setFocused(this);
+    FocusManager::shared().setFocused(*this);
 }
 
-bool View::propagate(Event *event)
+bool View::propagate(Event &event)
 {
     for (auto v : _children)
     {
-        if (v->handleEvent(event))
+        if (v.get().handleEvent(event))
         {
             return true;
         }
@@ -183,7 +183,7 @@ bool View::propagate(Event *event)
     return false;
 }
 
-bool View::handleEvent(Event *event)
+bool View::handleEvent(Event &event)
 {
     return propagate(event);
 }

@@ -9,12 +9,12 @@ namespace ui
     class FocusManager
     {
     public:
-        static FocusManager *shared();
+        static FocusManager &shared();
 
-        void setRoot(View *view);
+        void setRoot(View &view);
 
-        void setFocused(View *view);
-        View *getFocused();
+        void setFocused(View &view);
+        View &getFocused();
 
         void next();
         void prev();
@@ -27,7 +27,8 @@ namespace ui
         View *_focused;
         View *_root;
 
-        View *findByIndex(uint8_t focusIndex);
+        /** Find the neighboring focus index, either greater or less */
+        View *findNeighbor(bool greater);
     };
 } // namespace ui
 

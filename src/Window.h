@@ -8,18 +8,21 @@ namespace ui
     class Window
     {
     public:
-        static Window *main();
+        static Window &main();
 
         Window();
 
-        void setCanvas(Canvas *canvas);
-        
-        Activity *getActivity();
-        void setActivity(Activity *activity);
+        void setCanvas(Canvas &canvas);
 
-        void draw();
+        Activity &getActivity();
+        void setActivity(Activity &activity);
+
+        void requestFocus();
+
+        void update();
 
     private:
+        void draw();
         Activity *_activity;
         Canvas *_canvas;
     };

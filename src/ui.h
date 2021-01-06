@@ -11,7 +11,8 @@
 #include "FocusManager.h"
 #include "Activity.h"
 #include "Window.h"
-#include "InputDriver.h"
+#include "EventDispatcher.h"
+#include "InputDevice.h"
 
 #include "Canvas.h"
 

@@ -2,20 +2,20 @@
 
 using namespace ui;
 
-Activity::Activity(Canvas &canvas)
+Activity::Activity()
     : _root{NULL}
 {
 }
 
 void Activity::setRoot(View &root)
 {
-    if (_root == NULL)
+    if (!_root)
     {
         _root = &root;
     }
 }
 
-View *Activity::getRoot()
+View &Activity::getRoot()
 {
-    return _root;
+    return *_root;
 }

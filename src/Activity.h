@@ -8,8 +8,8 @@ namespace ui
     class Activity
     {
     public:
-        Activity(Canvas &canvas);
-        View *getRoot();
+        Activity();
+        View &getRoot();
 
     protected:
         /** If root has already been set, this does nothing */

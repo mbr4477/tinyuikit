@@ -13,9 +13,9 @@ namespace ui
 
         void setPlaceholder(std::string placeholder);
 
-        virtual void draw(Canvas *canvas);
+        virtual void draw(Canvas &canvas);
 
-        virtual bool handleEvent(Event *event);
+        virtual bool handleEvent(Event &event);
 
     private:
         std::string _placeholder;

@@ -2,8 +2,6 @@
 #define _UI_EVENT_H_
 #include <stdint.h>
 
-#define UI_BUTTON_ENTER_ID 0
-
 namespace ui
 {
     enum EventType

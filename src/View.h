@@ -25,7 +25,7 @@ namespace ui
         Box getBounds() const;
         void setBounds(Box bounds);
 
-        std::vector<View *> getChildren() const;
+        std::vector<std::reference_wrapper<View>> getChildren() const;
 
         void addChild(View &child);
 
@@ -46,7 +46,7 @@ namespace ui
         void setStateListener(std::function<void(ViewState)> listener);
 
         /** Draw to the given canvas. */
-        virtual void draw(Canvas *canvas);
+        virtual void draw(Canvas &canvas);
 
         bool isDirty() const;
         void markDirty();
@@ -62,11 +62,15 @@ namespace ui
         void setFocusIndex(uint8_t focusIndex);
         uint8_t getFocusIndex() const;
 
-        virtual bool handleEvent(Event *event);
+        virtual bool handleEvent(Event &event);
+
+        /** @brief This only works AFTER the view has 
+         *  added to the current activity 
+         */
+        void requestFocus();
 
     protected:
-        bool propagate(Event *event);
-        void requestFocus();
+        bool propagate(Event &event);
 
     private:
         Box _bounds;
@@ -78,12 +82,12 @@ namespace ui
         uint8_t _focusIndex;
         bool _focusable;
         std::function<void(ViewState)> _stateListener;
-        std::vector<View *> _children;
-        void drawSelf(Canvas *canvas);
+        std::vector<std::reference_wrapper<View>> _children;
+        void drawSelf(Canvas &canvas);
 
     protected:
-        void drawChildren(Canvas *canvas);
-        void drawBackground(Canvas *canvas);
+        void drawChildren(Canvas &canvas);
+        void drawBackground(Canvas &canvas);
         void clearDirty();
     };
 } // namespace ui
