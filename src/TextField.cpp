@@ -70,7 +70,10 @@ void TextField::draw(Canvas &canvas)
 
 bool TextField::handleEvent(Event &event)
 {
-    if (hasFocus() && event.type == KEYBOARD && event.data.keyboard.state == PRESSED)
+    if (event.type != KEYBOARD)
+        return false;
+
+    if (event.type == KEYBOARD && hasFocus() && event.data.keyboard.state == PRESSED)
     {
         char c = event.data.keyboard.key;
         std::string text = getText();

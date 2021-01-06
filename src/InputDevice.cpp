@@ -36,14 +36,16 @@ void InputDevice::poll()
     ButtonEventData buttons;
     KeyboardEventData keyboard;
     PointerEventData pointer;
+    Event e;
+
     if (_pollButtons && _pollButtons(buttons))
     {
+        e.type = BUTTON;
+        e.data.button = buttons;
         switch (buttons.buttonId)
         {
         case UI_BUTTON_ENTER_ID:
-            EventDispatcher::main().sendEventToFocused({BUTTON,
-                                                        buttons.state,
-                                                        buttons.buttonId});
+            EventDispatcher::main().sendEventToFocused(e);
             break;
         case UI_BUTTON_NEXT_ID:
             FocusManager::shared().next();
@@ -52,25 +54,22 @@ void InputDevice::poll()
             FocusManager::shared().prev();
             break;
         default:
-            EventDispatcher::main().sendEvent({BUTTON,
-                                               buttons.state,
-                                               buttons.buttonId});
+            EventDispatcher::main().sendEvent(e);
             break;
         }
     }
 
     if (_pollKeyboard && _pollKeyboard(keyboard))
     {
-        EventDispatcher::main().sendEvent({KEYBOARD,
-                                           keyboard.state,
-                                           keyboard.key});
+        e.type = KEYBOARD;
+        e.data.keyboard = keyboard;
+        EventDispatcher::main().sendEvent(e);
     }
-    
+
     if (_pollPointer && _pollPointer(pointer))
     {
-        EventDispatcher::main().sendEvent({POINTER,
-                                           pointer.state,
-                                           pointer.x,
-                                           pointer.y});
+        e.type = POINTER;
+        e.data.pointer = pointer;
+        EventDispatcher::main().sendEvent(e);
     }
 }
