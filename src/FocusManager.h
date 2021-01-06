@@ -2,38 +2,33 @@
 #define _UI_FOCUSMANAGER_H_
 #include "View.h"
 #include <vector>
+#include "stdint.h"
 
 namespace ui
 {
     class FocusManager
     {
     public:
-        FocusManager();
+        static FocusManager &shared();
 
-        /** @brief Add a view to the focus manager. 
-         * If this is the first view added, it takes focus.
-         */
-        void add(View &focusable);
+        void setRoot(View &view);
 
-        /** Returns false if already at last focusable element */
-        bool next();
+        void setFocused(View &view);
+        View &getFocused();
 
-        /** Returns false if already at first focusable element */
-        bool prev();
-
-        /** Reset to first focusable element */
+        void next();
+        void prev();
         void reset();
 
     private:
-        unsigned int _focusIndex;
-        View *_focused;
-        std::vector<View *> _focusables;
+        FocusManager();
 
-        /** Find the focused item or NULL if none found */
-        View *findFocusedByIndex(unsigned int focusIndex);
-        void setFocused(unsigned int focusIndex);
-        unsigned int getMaxFocusIndex();
-        unsigned int getMinFocusIndex();
+        uint8_t _focusIndex;
+        View *_focused;
+        View *_root;
+
+        /** Find the neighboring focus index, either greater or less */
+        View *findNeighbor(bool greater);
     };
 } // namespace ui
 

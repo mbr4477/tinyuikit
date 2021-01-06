@@ -2,6 +2,7 @@
 #define _UI_BUTTON_H_
 #include <functional>
 #include "Label.h"
+#include "InputDevice.h"
 
 namespace ui
 {
@@ -10,18 +11,14 @@ namespace ui
     public:
         Button(std::string text, Box bounds);
 
-        /** @brief Send a press event that is suppressed
-         * if the button is respecting focus and does not
-         * have it.
-         */
-        void press(bool respectFocus = true);
-        void release();
+        virtual bool handleEvent(Event &event);
 
-        void setClickListener(std::function<void(void)> listener);
+        void setClickListener(std::function<void(void)> listener, uint8_t buttonIdFilter = UI_BUTTON_ENTER_ID);
 
     private:
         std::function<void(void)> _clickListener;
         ViewState _prevState;
+        uint8_t _buttonIdFilter;
         bool _pressed;
     };
 } // namespace ui

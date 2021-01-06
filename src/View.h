@@ -1,10 +1,13 @@
 #ifndef _UI_VIEW_H_
 #define _UI_VIEW_H_
+#include <stdint.h>
 #include <vector>
+#include <functional>
+
 #include "Box.h"
 #include "Canvas.h"
 #include "Color.h"
-#include <functional>
+#include "Event.h"
 
 namespace ui
 {
@@ -22,7 +25,7 @@ namespace ui
         Box getBounds() const;
         void setBounds(Box bounds);
 
-        std::vector<View *> getChildren() const;
+        std::vector<std::reference_wrapper<View>> getChildren() const;
 
         void addChild(View &child);
 
@@ -56,8 +59,18 @@ namespace ui
          */
         void setFocus(bool focus);
 
-        void setFocusIndex(unsigned int focusIndex);
-        unsigned int getFocusIndex() const;
+        void setFocusIndex(uint8_t focusIndex);
+        uint8_t getFocusIndex() const;
+
+        virtual bool handleEvent(Event &event);
+
+        /** @brief This only works AFTER the view has 
+         *  added to the current activity 
+         */
+        void requestFocus();
+
+    protected:
+        bool propagate(Event &event);
 
     private:
         Box _bounds;
@@ -66,10 +79,10 @@ namespace ui
         Color _borderColor;
         bool _dirty;
         bool _focused;
-        unsigned int _focusIndex;
+        uint8_t _focusIndex;
         bool _focusable;
         std::function<void(ViewState)> _stateListener;
-        std::vector<View *> _children;
+        std::vector<std::reference_wrapper<View>> _children;
         void drawSelf(Canvas &canvas);
 
     protected:

@@ -1,6 +1,7 @@
 #include "View.h"
 #include <vector>
 #include "Color.h"
+#include "FocusManager.h"
 
 using namespace ui;
 
@@ -79,7 +80,7 @@ void View::markDirty()
     _dirty = true;
     for (auto v : _children)
     {
-        v->markDirty();
+        v.get().markDirty();
     }
 }
 
@@ -88,14 +89,14 @@ void View::clearDirty()
     _dirty = false;
 }
 
-std::vector<View *> View::getChildren() const
+std::vector<std::reference_wrapper<View>> View::getChildren() const
 {
     return _children;
 }
 
 void View::addChild(View &child)
 {
-    _children.push_back(&child);
+    _children.push_back(child);
     markDirty();
 }
 
@@ -118,7 +119,7 @@ void View::drawChildren(Canvas &canvas)
     for (auto v : _children)
     {
         canvas.setInset(_bounds.offsetBy(canvasInset));
-        v->draw(canvas);
+        v.get().draw(canvas);
     }
 }
 
@@ -150,12 +151,12 @@ bool View::hasFocus() const
     return _focused;
 }
 
-void View::setFocusIndex(unsigned int focusIndex)
+void View::setFocusIndex(uint8_t focusIndex)
 {
     _focusIndex = focusIndex;
 }
 
-unsigned int View::getFocusIndex() const
+uint8_t View::getFocusIndex() const
 {
     return _focusIndex;
 }
@@ -163,4 +164,26 @@ unsigned int View::getFocusIndex() const
 bool View::isFocusable() const
 {
     return _focusable;
+}
+
+void View::requestFocus()
+{
+    FocusManager::shared().setFocused(*this);
+}
+
+bool View::propagate(Event &event)
+{
+    for (auto v : _children)
+    {
+        if (v.get().handleEvent(event))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool View::handleEvent(Event &event)
+{
+    return propagate(event);
 }

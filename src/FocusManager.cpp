@@ -2,130 +2,133 @@
 
 using namespace ui;
 
+FocusManager &FocusManager::shared()
+{
+    static FocusManager manager;
+    return manager;
+}
+
 FocusManager::FocusManager()
     : _focusIndex{0},
-      _focusables{},
+      _root{NULL},
       _focused{NULL}
 {
 }
 
-void FocusManager::setFocused(unsigned int focusIndex)
+void FocusManager::setRoot(View &root)
+{
+    _root = &root;
+    reset();
+}
+
+void FocusManager::setFocused(View &focused)
 {
     if (_focused != NULL)
     {
         _focused->setFocus(false);
     }
-    _focusIndex = focusIndex;
-    View *candidate = findFocusedByIndex(_focusIndex);
-    if (candidate != NULL)
-    {
-        candidate->setFocus(true);
-    }
-    _focused = candidate;
+    _focusIndex = focused.getFocusIndex();
+    focused.setFocus(true);
+    _focused = &focused;
 }
 
-bool FocusManager::next()
+View &FocusManager::getFocused()
 {
-    if (_focusables.size() > 0)
-    {
-        unsigned int maxIndex = getMaxFocusIndex();
-        if (_focusIndex < maxIndex)
-        {
-            unsigned int nextFocused = maxIndex;
-            unsigned int possibleNext;
-            for (unsigned int i = 0; i < _focusables.size(); i++)
-            {
-                possibleNext = _focusables[i]->getFocusIndex();
-                if (possibleNext > _focusIndex && possibleNext < nextFocused)
-                {
-                    nextFocused = possibleNext;
-                }
-            }
-            setFocused(nextFocused);
-            return true;
-        }
-    }
-    return false;
+    return *_focused;
 }
 
-bool FocusManager::prev()
+View *FocusManager::findNeighbor(bool greater)
 {
-    if (_focusables.size() > 0)
+    if (!_root)
+        return NULL;
+    // adapted from https://stackoverflow.com/questions/5278580/non-recursive-depth-first-search-algorithm
+    std::vector<std::reference_wrapper<View>> unvisited;
+    unvisited.push_back(*_root);
+    View *top;
+    View *next = _focused;
+    while (unvisited.size() > 0)
     {
-        unsigned int minIndex = getMinFocusIndex();
-        if (_focusIndex > minIndex)
+        top = &(unvisited.back().get());
+        unvisited.pop_back();
+        for (auto c : top->getChildren())
         {
-            unsigned int nextFocused = minIndex;
-            unsigned int possiblePrev;
-            for (unsigned int i = 0; i < _focusables.size(); i++)
-            {
-                possiblePrev = _focusables[i]->getFocusIndex();
-                if (possiblePrev < _focusIndex && possiblePrev > nextFocused)
-                {
-                    nextFocused = possiblePrev;
-                }
-            }
-            setFocused(nextFocused);
-            return true;
+            unvisited.push_back(c);
+        }
+
+        if (!top->isFocusable())
+        {
+            continue;
+        }
+
+        if ((greater &&                            // looking for greater
+             top->getFocusIndex() > _focusIndex && // the candidate is greater
+             // the candidate is less the the previous bets match,
+             // if another view has been found
+             (next == _focused || top->getFocusIndex() < next->getFocusIndex())) ||
+            (!greater &&                           // looking for less
+             top->getFocusIndex() < _focusIndex && // the candidate is less
+             // the candidate is greater the the previous best match,
+             // if another view has been found
+             (next == _focused || top->getFocusIndex() > next->getFocusIndex())))
+        {
+            next = top;
         }
     }
-    return false;
+    return next;
+}
+
+void FocusManager::next()
+{
+    if (!_root)
+        return;
+    View *next = findNeighbor(true);
+    if (next)
+    {
+        setFocused(*next);
+    }
+}
+
+void FocusManager::prev()
+{
+    if (!_root)
+        return;
+    View *next = findNeighbor(false);
+    if (next)
+    {
+        setFocused(*next);
+    }
 }
 
 void FocusManager::reset()
 {
-    if (_focusables.size() > 0)
-    {
-        setFocused(getMinFocusIndex());
-    }
-}
-
-void FocusManager::add(View &focusable)
-{
-    if (!focusable.isFocusable())
+    if (!_root)
         return;
-
-    _focusables.push_back(&focusable);
-    if (_focusables.size() == 1)
+    std::vector<std::reference_wrapper<View>> unvisited;
+    unvisited.push_back(*_root);
+    View *top;
+    View *next = NULL;
+    uint8_t lowestFocusIndex = 255;
+    while (unvisited.size() > 0)
     {
-        setFocused(focusable.getFocusIndex());
-    }
-}
-
-View *FocusManager::findFocusedByIndex(unsigned int focusIndex)
-{
-    for (auto f : _focusables)
-    {
-        if (f->getFocusIndex() == focusIndex)
+        top = &(unvisited.back().get());
+        unvisited.pop_back();
+        for (auto c : top->getChildren())
         {
-            return f;
+            unvisited.push_back(c);
+        }
+
+        if (!top->isFocusable())
+        {
+            continue;
+        }
+
+        if (top->getFocusIndex() < lowestFocusIndex)
+        {
+            next = top;
         }
     }
-    return NULL;
-}
-
-unsigned int FocusManager::getMaxFocusIndex()
-{
-    unsigned int maxFocusIndex = 0;
-    for (unsigned int i = 0; i < _focusables.size(); i++)
+    if (next)
     {
-        if (_focusables[i]->getFocusIndex() > maxFocusIndex)
-        {
-            maxFocusIndex = _focusables[i]->getFocusIndex();
-        }
+        setFocused(*next);
     }
-    return maxFocusIndex;
-}
-
-unsigned int FocusManager::getMinFocusIndex()
-{
-    unsigned int minFocusIndex = 0;
-    for (unsigned int i = 0; i < _focusables.size(); i++)
-    {
-        if (_focusables[i]->getFocusIndex() < minFocusIndex)
-        {
-            minFocusIndex = _focusables[i]->getFocusIndex();
-        }
-    }
-    return minFocusIndex;
 }
