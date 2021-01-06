@@ -1,6 +1,7 @@
 #include "View.h"
 #include <vector>
 #include "Color.h"
+#include "FocusManager.h"
 
 using namespace ui;
 
@@ -150,12 +151,12 @@ bool View::hasFocus() const
     return _focused;
 }
 
-void View::setFocusIndex(unsigned int focusIndex)
+void View::setFocusIndex(uint8_t focusIndex)
 {
     _focusIndex = focusIndex;
 }
 
-unsigned int View::getFocusIndex() const
+uint8_t View::getFocusIndex() const
 {
     return _focusIndex;
 }
@@ -163,4 +164,26 @@ unsigned int View::getFocusIndex() const
 bool View::isFocusable() const
 {
     return _focusable;
+}
+
+void View::requestFocus()
+{
+    FocusManager::shared()->setFocused(this);
+}
+
+bool View::propagate(Event *event)
+{
+    for (auto v : _children)
+    {
+        if (v->handleEvent(event))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool View::handleEvent(Event *event)
+{
+    return propagate(event);
 }

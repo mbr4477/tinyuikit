@@ -1,10 +1,13 @@
 #ifndef _UI_VIEW_H_
 #define _UI_VIEW_H_
+#include <stdint.h>
 #include <vector>
+#include <functional>
+
 #include "Box.h"
 #include "Canvas.h"
 #include "Color.h"
-#include <functional>
+#include "Event.h"
 
 namespace ui
 {
@@ -56,8 +59,14 @@ namespace ui
          */
         void setFocus(bool focus);
 
-        void setFocusIndex(unsigned int focusIndex);
-        unsigned int getFocusIndex() const;
+        void setFocusIndex(uint8_t focusIndex);
+        uint8_t getFocusIndex() const;
+
+        virtual bool handleEvent(Event *event);
+
+    protected:
+        bool propagate(Event *event);
+        void requestFocus();
 
     private:
         Box _bounds;
@@ -66,7 +75,7 @@ namespace ui
         Color _borderColor;
         bool _dirty;
         bool _focused;
-        unsigned int _focusIndex;
+        uint8_t _focusIndex;
         bool _focusable;
         std::function<void(ViewState)> _stateListener;
         std::vector<View *> _children;

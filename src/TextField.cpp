@@ -68,20 +68,26 @@ void TextField::draw(Canvas *canvas)
     }
 }
 
-void TextField::write(char c)
+bool TextField::handleEvent(Event *event)
 {
-    std::string text = getText();
-    if (c >= ' ' && c < '~')
+    if (event->type == KEYBOARD && event->data.keyboard.state == PRESSED)
     {
-        // printable character
-        setText(text + c);
-    }
-    else if (c == _UI_TEXTFIELD_BKSP || c == _UI_TEXTFIELD_DEL)
-    {
-        // backspace
-        if (text.length() > 0)
+        char c = event->data.keyboard.key;
+        std::string text = getText();
+        if (c >= ' ' && c < '~')
         {
-            setText(text.substr(0, text.length() - 1));
+            // printable character
+            setText(text + c);
         }
+        else if (c == _UI_TEXTFIELD_BKSP || c == _UI_TEXTFIELD_DEL)
+        {
+            // backspace
+            if (text.length() > 0)
+            {
+                setText(text.substr(0, text.length() - 1));
+            }
+        }
+        return true;
     }
+    return false;
 }

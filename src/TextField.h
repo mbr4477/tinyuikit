@@ -2,6 +2,7 @@
 #define _UI_TEXTFIELD_H_
 #include <string>
 #include "Label.h"
+#include "Event.h"
 
 namespace ui
 {
@@ -14,7 +15,7 @@ namespace ui
 
         virtual void draw(Canvas *canvas);
 
-        void write(char c);
+        virtual bool handleEvent(Event *event);
 
     private:
         std::string _placeholder;

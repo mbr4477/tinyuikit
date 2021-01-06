@@ -1,4 +1,5 @@
 #include "Button.h"
+
 using namespace ui;
 
 Button::Button(std::string text, Box bounds)
@@ -13,33 +14,36 @@ Button::Button(std::string text, Box bounds)
     setVAlignment(MIDDLE);
 }
 
-void Button::press(bool respectFocus)
-{
-    if (!respectFocus)
-    {
-        _prevState = (_prevState != ACTIVE) ? getState() : _prevState;
-        _pressed = true;
-        setState(ACTIVE);
-    }
-    else if (hasFocus())
-    {
-        _prevState = (_prevState != ACTIVE) ? getState() : _prevState;
-        _pressed = true;
-        setState(ACTIVE);
-    }
-}
-
-void Button::release()
-{
-    if (_pressed)
-    {
-        _clickListener();
-        setState(_prevState);
-        _pressed = false;
-    }
-}
-
 void Button::setClickListener(std::function<void(void)> listener)
 {
     _clickListener = listener;
+}
+
+bool Button::handleEvent(Event *event)
+{
+    if (event->type == BUTTON && event->data.button.buttonId == UI_BUTTON_ENTER_ID)
+    {
+        switch (event->data.button.state)
+        {
+        case InputState::PRESSED:
+            if (!_pressed)
+            {
+                _prevState = getState();
+                setState(ViewState::ACTIVE);
+                _pressed = true;
+            }
+            break;
+        case InputState::RELEASED:
+        default:
+            if (_pressed)
+            {
+                setState(_prevState);
+                _pressed = false;
+                _clickListener();
+            }
+            break;
+        }
+        return true;
+    }
+    return false;
 }

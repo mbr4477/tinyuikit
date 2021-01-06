@@ -10,12 +10,7 @@ namespace ui
     public:
         Button(std::string text, Box bounds);
 
-        /** @brief Send a press event that is suppressed
-         * if the button is respecting focus and does not
-         * have it.
-         */
-        void press(bool respectFocus = true);
-        void release();
+        virtual bool handleEvent(Event *event);
 
         void setClickListener(std::function<void(void)> listener);
 
