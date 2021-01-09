@@ -15,7 +15,7 @@ View::View(const Box bounds, bool focusable)
       _focused{false},
       _focusIndex{0},
       _focusable{focusable},
-      _stateListener{[](ViewState state) {}}
+      _stateListener{[](ViewState state, View &view) {}}
 {
 }
 
@@ -55,7 +55,7 @@ Color View::getBorderColor() const
 void View::setState(ViewState state)
 {
     _state = state;
-    _stateListener(_state);
+    _stateListener(_state, *this);
     markDirty();
 }
 
@@ -64,10 +64,10 @@ ViewState View::getState() const
     return _state;
 }
 
-void View::setStateListener(std::function<void(ViewState)> listener)
+void View::setStateListener(std::function<void(ViewState, View &)> listener)
 {
     _stateListener = listener;
-    _stateListener(_state);
+    _stateListener(_state, *this);
 }
 
 bool View::isDirty() const
@@ -96,6 +96,10 @@ std::vector<std::reference_wrapper<View>> View::getChildren() const
 
 void View::addChild(View &child)
 {
+    if (_children.size() > 0)
+    {
+        child.setFocusIndex(_children.back().get().getFocusIndex() + 1);
+    }
     _children.push_back(child);
     markDirty();
 }

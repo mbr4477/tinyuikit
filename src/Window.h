@@ -10,8 +10,6 @@ namespace ui
     public:
         static Window &main();
 
-        Window();
-
         void setCanvas(Canvas &canvas);
 
         Activity &getActivity();
@@ -21,7 +19,12 @@ namespace ui
 
         void update();
 
+        // Event dispatching
+        void sendEvent(Event event);
+        void sendEventToFocused(Event event);
+
     private:
+        Window();
         void draw();
         Activity *_activity;
         Canvas *_canvas;

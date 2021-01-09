@@ -22,16 +22,18 @@ namespace ui
         uint8_t _blue;
         bool _transparent;
     };
-    const Color WHITE(255, 255, 255);
-    const Color GRAY(128, 128, 128);
-    const Color BLACK(0, 0, 0);
-    const Color RED(255, 0, 0);
-    const Color GREEN(0, 255, 0);
-    const Color BLUE(0, 0, 255);
-    const Color YELLOW(255, 255, 0);
-    const Color CYAN(0, 200, 255);
-    const Color MAGENTA(255, 0, 255);
-    const Color TRANSPARENT;
+
+#define UI_WHITE (Color(255, 255, 255))
+#define UI_GRAY (Color(128, 128, 128))
+#define UI_RED (Color(255, 0, 0))
+#define UI_BLACK (Color(0, 0, 0))
+#define UI_GREEN (Color(0, 255, 0))
+#define UI_BLUE (Color(0, 0, 255))
+#define UI_YELLOW (Color(255, 255, 0))
+#define UI_CYAN (Color(0, 200, 255))
+#define UI_MAGENTA (Color(255, 0, 255))
+#define UI_TRANSPARENT (Color())
+
 } // namespace ui
 
 #endif

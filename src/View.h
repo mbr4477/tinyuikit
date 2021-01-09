@@ -43,7 +43,7 @@ namespace ui
          * state and can be used to modify the view style
          * based on the state.
          */
-        void setStateListener(std::function<void(ViewState)> listener);
+        void setStateListener(std::function<void(ViewState, View &)> listener);
 
         /** Draw to the given canvas. */
         virtual void draw(Canvas &canvas);
@@ -81,7 +81,7 @@ namespace ui
         bool _focused;
         uint8_t _focusIndex;
         bool _focusable;
-        std::function<void(ViewState)> _stateListener;
+        std::function<void(ViewState, View &)> _stateListener;
         std::vector<std::reference_wrapper<View>> _children;
         void drawSelf(Canvas &canvas);
 

@@ -9,7 +9,7 @@ TextField::TextField(std::string placeholder, const Box bounds)
       _placeholder{placeholder}
 {
     setVAlignment(MIDDLE);
-    setStateListener([this](ViewState state) {
+    setStateListener([this](ViewState state, View &me) {
         switch (state)
         {
         case NORMAL:

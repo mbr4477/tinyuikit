@@ -50,6 +50,19 @@ void Window::draw()
 
 void Window::update()
 {
-    InputDevice::shared().poll();
+    InputDevice::shared().poll(*this);
     draw();
+}
+
+void Window::sendEvent(Event event)
+{
+    if (_activity)
+    {
+        _activity->getRoot().handleEvent(event);
+    }
+}
+
+void Window::sendEventToFocused(Event event)
+{
+    FocusManager::shared().getFocused().handleEvent(event);
 }
