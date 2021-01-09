@@ -2,6 +2,10 @@
 
 std::string TranslateIntoPigLatin(std::string input)
 {
+    if (input.size() == 0)
+    {
+        return "";
+    }
     int wordStart;
     int wordEnd;
     wordStart = 0;

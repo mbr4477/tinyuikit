@@ -21,7 +21,7 @@
 using namespace ui;
 
 Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
-GFXCanvas canvas(tft);
+GFXCanvas canvas(tft, GFXCanvas::RGB);
 MainActivity mainActivity(SCREEN_WIDTH, SCREEN_HEIGHT);
 ArduinoDriver driver;
 
