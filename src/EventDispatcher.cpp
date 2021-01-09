@@ -4,20 +4,14 @@
 
 using namespace ui;
 
-EventDispatcher &EventDispatcher::main()
-{
-    static EventDispatcher driver(Window::main());
-    return driver;
-}
-
-EventDispatcher::EventDispatcher(Window &window)
-    : _window{window}
+EventDispatcher::EventDispatcher(Window &target)
+    : _targetWindow{target}
 {
 }
 
 void EventDispatcher::sendEvent(Event event)
 {
-    _window.getActivity().getRoot().handleEvent(event);
+    _targetWindow.getActivity().getRoot().handleEvent(event);
 }
 
 void EventDispatcher::sendEventToFocused(Event event)

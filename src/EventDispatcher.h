@@ -9,14 +9,12 @@ namespace ui
     class EventDispatcher
     {
     public:
-        static EventDispatcher &main();
-        EventDispatcher(Window &window);
-
+        EventDispatcher(Window &target);
         void sendEvent(Event event);
         void sendEventToFocused(Event event);
 
     private:
-        Window &_window;
+        Window &_targetWindow;
     };
 } // namespace ui
 

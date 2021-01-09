@@ -2,6 +2,7 @@
 #define _UI_WINDOW_H_
 #include "Activity.h"
 #include "Canvas.h"
+#include "EventDispatcher.h"
 
 namespace ui
 {
@@ -9,8 +10,6 @@ namespace ui
     {
     public:
         static Window &main();
-
-        Window();
 
         void setCanvas(Canvas &canvas);
 
@@ -22,9 +21,11 @@ namespace ui
         void update();
 
     private:
+        Window();
         void draw();
         Activity *_activity;
         Canvas *_canvas;
+        EventDispatcher _dispatcher; // The dispatcher used to send events to this window.
     };
 } // namespace ui
 

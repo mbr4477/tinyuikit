@@ -11,7 +11,8 @@ Window &Window::main()
 
 Window::Window()
     : _canvas{NULL},
-      _activity{NULL}
+      _activity{NULL},
+      _dispatcher{*this}
 {
 }
 
@@ -50,6 +51,6 @@ void Window::draw()
 
 void Window::update()
 {
-    InputDevice::shared().poll();
+    InputDevice::shared().poll(_dispatcher);
     draw();
 }
