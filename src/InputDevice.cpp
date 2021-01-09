@@ -40,10 +40,16 @@ void InputDevice::handleButtonEvent(ButtonEventData data, Window &target)
         target.sendEventToFocused(e);
         break;
     case UI_BUTTON_NEXT_ID:
-        FocusManager::shared().next();
+        if (data.state == PRESSED)
+        {
+            FocusManager::shared().next();
+        }
         break;
     case UI_BUTTON_PREV_ID:
-        FocusManager::shared().prev();
+        if (data.state == PRESSED)
+        {
+            FocusManager::shared().prev();
+        }
         break;
     default:
         target.sendEvent(e);
