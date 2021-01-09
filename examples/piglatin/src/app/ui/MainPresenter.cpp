@@ -1,5 +1,5 @@
 #include "MainPresenter.h"
-#include "../domain/TranslateIntoPigLatin.h"
+#include "../../domain/TranslateIntoPigLatin.h"
 
 MainPresenter::MainPresenter(MainPresenter::MainActivity &activity)
     : _activity{activity}

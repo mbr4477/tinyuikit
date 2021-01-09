@@ -8,6 +8,7 @@ ArduinoDriver::ArduinoDriver()
 
 void ArduinoDriver::setupButton(uint8_t buttonPin, uint8_t buttonId, ButtonLogic logic)
 {
+    pinMode(buttonPin, INPUT);
     _buttons.push_back({buttonPin, buttonId, logic, false});
 }
 
@@ -28,7 +29,7 @@ ButtonDriver ArduinoDriver::getButtonDriver()
 {
     return [this](ButtonEventHandler handler) {
         ButtonEventData e;
-        for (auto b : _buttons)
+        for (auto &b : _buttons)
         {
             if (!b.pressed && digitalRead(b.buttonPin) == b.logic)
             {

@@ -19,7 +19,6 @@ public:
 
     void applyTo(View &view);
     void applyTo(Label &label);
-    void applyTo(TextField &field);
 
 private:
     std::vector<Style> _styles;

@@ -39,8 +39,6 @@ namespace ui
 
         virtual void draw(Canvas &canvas);
 
-        virtual void setStateListener(std::function<void(ViewState, Label &)> listener);
-
     protected:
         void drawTextInBounds(Canvas &canvas,
                               std::string text,

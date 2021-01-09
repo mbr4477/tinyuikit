@@ -9,8 +9,8 @@ Button::Button(std::string text, Box bounds)
       _pressed{false},
       _buttonIdFilter{UI_BUTTON_ENTER_ID}
 {
-    setTextColor(BLACK);
-    setBgColor({0, 128, 255});
+    setTextColor(UI_BLACK);
+    setBgColor(UI_CYAN);
     setAlignment(CENTER);
     setVAlignment(MIDDLE);
 }

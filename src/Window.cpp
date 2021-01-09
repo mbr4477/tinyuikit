@@ -11,8 +11,7 @@ Window &Window::main()
 
 Window::Window()
     : _canvas{NULL},
-      _activity{NULL},
-      _dispatcher{*this}
+      _activity{NULL}
 {
 }
 
@@ -51,6 +50,19 @@ void Window::draw()
 
 void Window::update()
 {
-    InputDevice::shared().poll(_dispatcher);
+    InputDevice::shared().poll(*this);
     draw();
+}
+
+void Window::sendEvent(Event event)
+{
+    if (_activity)
+    {
+        _activity->getRoot().handleEvent(event);
+    }
+}
+
+void Window::sendEventToFocused(Event event)
+{
+    FocusManager::shared().getFocused().handleEvent(event);
 }

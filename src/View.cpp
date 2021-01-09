@@ -64,7 +64,7 @@ ViewState View::getState() const
     return _state;
 }
 
-void View::setStateListener(std::function<void(ViewState, View)> listener)
+void View::setStateListener(std::function<void(ViewState, View &)> listener)
 {
     _stateListener = listener;
     _stateListener(_state, *this);
@@ -96,6 +96,10 @@ std::vector<std::reference_wrapper<View>> View::getChildren() const
 
 void View::addChild(View &child)
 {
+    if (_children.size() > 0)
+    {
+        child.setFocusIndex(_children.back().get().getFocusIndex() + 1);
+    }
     _children.push_back(child);
     markDirty();
 }

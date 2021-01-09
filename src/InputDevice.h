@@ -2,6 +2,7 @@
 #define _UI_INPUTDEVICE_H_
 #include <functional>
 #include "Event.h"
+#include "Window.h"
 
 #define UI_BUTTON_ENTER_ID 0
 #define UI_BUTTON_NEXT_ID 1
@@ -27,8 +28,8 @@ namespace ui
         void setKeyboardDriver(KeyboardDriver driver);
         void setPointerDriver(PointerDriver driver);
 
-        /** Poll the device, sending events via the given dispatcher */
-        void poll(EventDispatcher &dispatcher);
+        /** Poll the device, sending events via the given window */
+        void poll(Window &target);
 
     private:
         InputDevice();
@@ -36,9 +37,9 @@ namespace ui
         KeyboardDriver _pollKeyboard;
         PointerDriver _pollPointer;
 
-        void handleButtonEvent(ButtonEventData data, EventDispatcher dispatcher);
-        void handleKeyboardEvent(KeyboardEventData data, EventDispatcher dispatcher);
-        void handlePointerEvent(PointerEventData data, EventDispatcher dispatcher);
+        void handleButtonEvent(ButtonEventData data, Window &target);
+        void handleKeyboardEvent(KeyboardEventData data, Window &target);
+        void handlePointerEvent(PointerEventData data, Window &target);
     };
 } // namespace ui
 

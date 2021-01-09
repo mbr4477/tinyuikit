@@ -43,7 +43,7 @@ namespace ui
          * state and can be used to modify the view style
          * based on the state.
          */
-        virtual void setStateListener(std::function<void(ViewState, View &)> listener);
+        void setStateListener(std::function<void(ViewState, View &)> listener);
 
         /** Draw to the given canvas. */
         virtual void draw(Canvas &canvas);

@@ -1,6 +1,4 @@
 #include "InputDevice.h"
-#include "EventDispatcher.h"
-
 using namespace ui;
 
 InputDevice::InputDevice()
@@ -31,7 +29,7 @@ void InputDevice::setPointerDriver(PointerDriver driver)
     _pollPointer = driver;
 }
 
-void InputDevice::handleButtonEvent(ButtonEventData data, EventDispatcher dispatcher)
+void InputDevice::handleButtonEvent(ButtonEventData data, Window &target)
 {
     Event e;
     e.type = BUTTON;
@@ -39,7 +37,7 @@ void InputDevice::handleButtonEvent(ButtonEventData data, EventDispatcher dispat
     switch (data.buttonId)
     {
     case UI_BUTTON_ENTER_ID:
-        dispatcher.sendEventToFocused(e);
+        target.sendEventToFocused(e);
         break;
     case UI_BUTTON_NEXT_ID:
         FocusManager::shared().next();
@@ -48,28 +46,28 @@ void InputDevice::handleButtonEvent(ButtonEventData data, EventDispatcher dispat
         FocusManager::shared().prev();
         break;
     default:
-        dispatcher.sendEvent(e);
+        target.sendEvent(e);
         break;
     }
 }
 
-void InputDevice::handleKeyboardEvent(KeyboardEventData data, EventDispatcher dispatcher)
+void InputDevice::handleKeyboardEvent(KeyboardEventData data, Window &target)
 {
     Event e;
     e.type = KEYBOARD;
     e.data.keyboard = data;
-    dispatcher.sendEvent(e);
+    target.sendEvent(e);
 }
 
-void InputDevice::handlePointerEvent(PointerEventData data, EventDispatcher dispatcher)
+void InputDevice::handlePointerEvent(PointerEventData data, Window &target)
 {
     Event e;
     e.type = POINTER;
     e.data.pointer = data;
-    dispatcher.sendEvent(e);
+    target.sendEvent(e);
 }
 
-void InputDevice::poll(EventDispatcher &dispatcher)
+void InputDevice::poll(Window &target)
 {
     ButtonEventData buttons;
     KeyboardEventData keyboard;
@@ -77,22 +75,22 @@ void InputDevice::poll(EventDispatcher &dispatcher)
 
     if (_pollButtons)
     {
-        _pollButtons([this, dispatcher](ButtonEventData data) {
-            handleButtonEvent(data, dispatcher);
+        _pollButtons([this, &target](ButtonEventData data) {
+            handleButtonEvent(data, target);
         });
     }
 
     if (_pollKeyboard)
     {
-        _pollKeyboard([this, dispatcher](KeyboardEventData data) {
-            handleKeyboardEvent(data, dispatcher);
+        _pollKeyboard([this, &target](KeyboardEventData data) {
+            handleKeyboardEvent(data, target);
         });
     }
 
     if (_pollPointer)
     {
-        _pollPointer([this, dispatcher](PointerEventData data) {
-            handlePointerEvent(data, dispatcher);
+        _pollPointer([this, &target](PointerEventData data) {
+            handlePointerEvent(data, target);
         });
     }
 }

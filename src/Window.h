@@ -2,7 +2,6 @@
 #define _UI_WINDOW_H_
 #include "Activity.h"
 #include "Canvas.h"
-#include "EventDispatcher.h"
 
 namespace ui
 {
@@ -20,12 +19,15 @@ namespace ui
 
         void update();
 
+        // Event dispatching
+        void sendEvent(Event event);
+        void sendEventToFocused(Event event);
+
     private:
         Window();
         void draw();
         Activity *_activity;
         Canvas *_canvas;
-        EventDispatcher _dispatcher; // The dispatcher used to send events to this window.
     };
 } // namespace ui
 
