@@ -10,8 +10,8 @@ FocusManager &FocusManager::shared()
 
 FocusManager::FocusManager()
     : _focusIndex{0},
-      _root{NULL},
-      _focused{NULL}
+      _focused{NULL},
+      _root{NULL}
 {
 }
 

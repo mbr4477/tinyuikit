@@ -6,8 +6,8 @@ Button::Button(std::string text, Box bounds)
     : Label{text, bounds, true},
       _clickListener{[]() {}},
       _prevState{NORMAL},
-      _pressed{false},
-      _buttonIdFilter{UI_BUTTON_ENTER_ID}
+      _buttonIdFilter{UI_BUTTON_ENTER_ID},
+      _pressed{false}
 {
     setTextColor(UI_BLACK);
     setBgColor(UI_CYAN);

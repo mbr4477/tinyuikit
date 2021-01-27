@@ -37,21 +37,30 @@ namespace ui
         void setVAlignment(VAlignment align);
         VAlignment getVAlignment() const;
 
+        void setLineHeight(uint16_t height);
+        uint16_t getLineHeight() const;
+
         virtual void draw(Canvas &canvas);
 
     protected:
-        void drawTextInBounds(Canvas &canvas,
-                              std::string text,
-                              Box bounds,
-                              Alignment halign,
-                              VAlignment valign,
-                              Color color);
+        void drawWordWrappedText(Canvas &canvas,
+                                 std::string text,
+                                 Box bounds,
+                                 Alignment halign,
+                                 VAlignment valign,
+                                 Color color);
+        void drawSingleLineText(Canvas &canvas,
+                                std::string text,
+                                Box bounds,
+                                Alignment halign,
+                                Color color);
 
     private:
         std::string _text;
         Color _textColor;
         Alignment _halign;
         VAlignment _valign;
+        uint16_t _lineHeight;
     };
 } // namespace ui
 

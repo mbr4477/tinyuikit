@@ -13,8 +13,8 @@ Color::Color()
 
 Color::Color(const Color &other)
     : _red{other._red},
-      _blue{other._blue},
       _green{other._green},
+      _blue{other._blue},
       _transparent{other._transparent}
 {
 }

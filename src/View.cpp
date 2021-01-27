@@ -7,15 +7,16 @@ using namespace ui;
 
 View::View(const Box bounds, bool focusable)
     : _bounds{bounds},
-      _children{},
-      _dirty{true},
+      _state{NORMAL},
       _bgColor{0, 0, 0},
       _borderColor{},
-      _state{NORMAL},
+      _dirty{true},
       _focused{false},
       _focusIndex{0},
       _focusable{focusable},
-      _stateListener{[](ViewState state, View &view) {}}
+      _stateListener{[](ViewState state, View &view) {}},
+      _children{}
+
 {
 }
 

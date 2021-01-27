@@ -10,8 +10,8 @@ Window &Window::main()
 }
 
 Window::Window()
-    : _canvas{NULL},
-      _activity{NULL}
+    : _activity{NULL},
+      _canvas{NULL}
 {
 }
 

@@ -12,6 +12,7 @@
 #include "Activity.h"
 #include "Window.h"
 #include "InputDevice.h"
+#include "Stylesheet.h"
 
 #include "Canvas.h"
 

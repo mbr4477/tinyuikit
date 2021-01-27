@@ -46,7 +46,7 @@ void TextField::draw(Canvas &canvas)
             getBorderColor());
         if (getText().length() > 0)
         {
-            drawTextInBounds(
+            drawWordWrappedText(
                 canvas,
                 getText(),
                 getBounds(),
@@ -56,7 +56,7 @@ void TextField::draw(Canvas &canvas)
         }
         else
         {
-            drawTextInBounds(
+            drawWordWrappedText(
                 canvas,
                 _placeholder,
                 getBounds(),

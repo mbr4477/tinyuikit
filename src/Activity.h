@@ -17,14 +17,11 @@ namespace ui
     class Activity
     {
     public:
-        Activity();
+        Activity(uint16_t width, uint16_t height);
         View &getRoot();
 
-        /** If root has already been set, this does nothing */
-        void setRoot(View &view);
-
     private:
-        View *_root;
+        View _root;
     };
 } // namespace ui
 
